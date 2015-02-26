@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-under-query",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "underscore-query node for node-red",
   "main": "under-query.js",
   "scripts": {
