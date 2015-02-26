@@ -10,6 +10,8 @@ Run the following command in the root directory of your Node-RED install
   npm install node-red-contrib-underscore-query
 ```
 
+## Configuration 
+
 ## Config options
 ### $equal
 Performs a strict equality test using `===`. If no operator is provided and the query value isn't a regex then `$equal` is assumed.
