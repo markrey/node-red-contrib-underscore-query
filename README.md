@@ -11,9 +11,6 @@ Run the following command in the root directory of your Node-RED install
 ```
 
 ## Config options
-Query API
-===
-
 ### $equal
 Performs a strict equality test using `===`. If no operator is provided and the query value isn't a regex then `$equal` is assumed.
 
