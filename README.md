@@ -11,8 +11,33 @@ Run the following command in the root directory of your Node-RED install
 ```
 
 ## Configuration 
+[![Config](https://raw.githubusercontent.com/efa2000/node-red-contrib-underscore-query/master/config.png)](https://raw.githubusercontent.com/efa2000/node-red-contrib-underscore-query/master/config.png)
 
-## Config options
+You can uses the <i><a href="http://mustache.github.io/mustache.5.html" target="_new">mustache</a></i> format.
+
+## Input
+<b>msg.payload</b> Input array for search
+
+```
+  { 
+    "topic": 10, 
+    "payload": [ { "id": 1 }, { "id": 2 }, { "id": 3 }, { "id": 10 }, { "id": 15 }, { "id": 20 } ], 
+    "_msgid": "9c699dcd.63966" 
+  }
+```
+
+## Output
+The result array is placed in the <b>msg.payload</b>
+
+```
+  { 
+    "topic": 10, 
+    "payload": [ { "id": 15 }, { "id": 20 } ], 
+    "_msgid": "9c699dcd.63966" 
+  }
+```
+
+## Query
 ### $equal
 Performs a strict equality test using `===`. If no operator is provided and the query value isn't a regex then `$equal` is assumed.
 
@@ -172,17 +197,12 @@ A callback function can be supplied as a test. The callback will receive the att
 `this` will be set to the current model, this can help with tests against computed properties
 
 ```js
-_.query( MyCollection, { title: {$cb: function(attr){ return attr.charAt(0) === "c";}} });
+{ title: {$cb: function(attr){ return attr.charAt(0) === "c";}} }
 // Returns all models that have a title attribute that starts with "c"
 
-_.query( MyCollection, { computed_test: {$cb: function(){ return this.computed_property() > 10;}} });
+{ computed_test: {$cb: function(){ return this.computed_property() > 10;}} }
 // Returns all models where the computed_property method returns a value greater than 10.
 ```
-
-For callbacks that use `this` rather than the model attribute, the key name supplied is arbitrary and has no
-effect on the results. If the only test you were performing was like the above test it would make more sense
-to simply use `MyCollection.filter`. However if you are performing other tests or are using the paging / sorting /
-caching options of backbone query, then this functionality is useful.
 
 ###Combined 
 
