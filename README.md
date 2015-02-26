@@ -183,3 +183,65 @@ For callbacks that use `this` rather than the model attribute, the key name supp
 effect on the results. If the only test you were performing was like the above test it would make more sense
 to simply use `MyCollection.filter`. However if you are performing other tests or are using the paging / sorting /
 caching options of backbone query, then this functionality is useful.
+
+###Combined 
+
+Multiple queries can be combined together. By default all supplied queries use the `$and` operator. However it is possible
+to specify either `$or`, `$nor`, `$not` to implement alternate logic.
+
+#### $and
+
+```js
+{ $and: { title: {$like: "News"}, likes: {$gt: 10}}}
+// Returns all models that contain "News" in the title and have more than 10 likes.
+{ title: {$like: "News"}, likes: {$gt: 10} }
+// Same as above as $and is assumed if not supplied
+```
+
+#### $or
+
+```js
+{ $or: { title: {$like: "News"}, likes: {$gt: 10}}}
+// Returns all models that contain "News" in the title OR have more than 10 likes.
+```
+
+#### $nor
+The opposite of `$or`
+
+```js
+{ $nor: { title: {$like: "News"}, likes: {$gt: 10}}}
+// Returns all models that don't contain "News" in the title NOR have more than 10 likes.
+```
+
+#### $not
+The opposite of `$and`
+
+```js
+{ $not: { title: {$like: "News"}, likes: {$gt: 10}}}
+// Returns all models that don't contain "News" in the title AND DON'T have more than 10 likes.
+```
+
+If you need to perform multiple queries on the same key, then you can supply the query as an array:
+```js
+{
+    $or:[
+        {title:"News"},
+        {title:"About"}
+    ]
+}
+// Returns all models with the title "News" or "About".
+```
+
+####Compound
+
+It is possible to use multiple combined queries, for example searching for models that have a specific title attribute,
+and either a category of "abc" or a tag of "xyz"
+
+```js
+{
+    $and: { title: {$like: "News"}},
+    $or: {likes: {$gt: 10}, color:{$contains:"red"}}
+}
+//Returns models that have "News" in their title and
+//either have more than 10 likes or contain the color red.
+```
